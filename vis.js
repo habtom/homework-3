@@ -36,7 +36,7 @@ function runVis(data) {
   // select our stories, pulling in previous ones to update
   // by selecting on the stories' class name
   var stories = redditSvg
-     .selectAll("text")
+     .selectAll("rect")
      // the return value of data() is the update context - so the 'stories' var is
      // how we refence the update context from now on
      .data(formatted,function(d) {
@@ -51,16 +51,19 @@ function runVis(data) {
 
   // ENTER context
   stories.enter()
-    .append("text")
-    .text(function(d){return d.score + " " + d.diff + " " + d.title})
-    .attr("y", function(d,i){return 1.5*i + 1 + "em"})
-    .style("color","black");
+    .append("rect")
+    .attr("x", 20)
+    .attr("y", function(d, i) { return i * 27 })
+    .attr("width", function(d) {return d.score/5;})
+    .attr("height", 20)
+    .attr("fill", "teal");
 
   // UPDATE + ENTER context
-  // elements added via enter() will then be available on the update context, so
-  // we can set attributes once, for entering and updating elements, here
+
   stories
-    .text(function(d){return d.score + " " + d.diff + " " + d.title})
+    .attr("width", function(d) {
+            return d.score/5;
+         })
 
   // EXIT content
   stories.exit()
